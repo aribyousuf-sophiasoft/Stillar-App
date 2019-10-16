@@ -21,7 +21,12 @@ class _HomeScreenState extends State<HomeScreen> {
     appState = StateWidget.of(context).state;
     if (!appState.isLoading && (appState.user == null)) {
       return SignInScreen();
-    } else {
+    }
+    else if (!appState.user.otpAuthenticated)
+    {
+      return SignInScreen();
+    }
+    else {
       if (appState.isLoading) {
         _loadingVisible = true;
       } else {

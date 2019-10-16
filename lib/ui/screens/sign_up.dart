@@ -1,3 +1,4 @@
+import 'package:chat_app/util/state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _email = new TextEditingController();
   final TextEditingController _mobileNumber = new TextEditingController();
   final TextEditingController _password = new TextEditingController();
+  final TextEditingController _confirmPassword = new TextEditingController();
 
   bool _autoValidate = false;
   bool _loadingVisible = false;
@@ -130,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         keyboardType: TextInputType.phone,
         autofocus: false,
         controller: _mobileNumber,
-        validator: Validator.validateEmail,
+        validator: Validator.validateNumber,
         decoration: InputDecoration(
           prefixIcon: Padding(
             padding: EdgeInsets.only(left: 5.0),
@@ -191,8 +193,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           style: new TextStyle(fontFamily: 'Poppins'),
           autofocus: false,
           obscureText: true,
-          controller: _password,
-          validator: Validator.validatePassword,
+          controller: _confirmPassword,
+         validator: (value) {
+    if (value != _password.text) {
+    return 'Password Does not match';
+    }
+    else
+      {
+        return null;
+      }
+    },
           decoration: InputDecoration(
             prefixIcon: Padding(
               padding: EdgeInsets.only(left: 5.0),
@@ -223,7 +233,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        onPressed: () {},
+        onPressed: () {
+          _emailSignUp(firstName:_firstName.text,lastName:_lastName.text,email:_email.text,mobileNumber:_mobileNumber.text,password:_password.text,context: context);
+        },
         padding: EdgeInsets.all(12),
         color: Color(0xFF00269d),
         child: Text('SIGNUP',
@@ -346,31 +358,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
       {String firstName,
       String lastName,
       String email,
+      String mobileNumber,
       String password,
       BuildContext context}) async {
     if (_formKey.currentState.validate()) {
       try {
         SystemChannels.textInput.invokeMethod('TextInput.hide');
         await _changeLoadingVisible();
-        //need await so it has chance to go through error if found.
-        /* await Auth.signUp(email, password).then((uID) {
-          Auth.addUserSettingsDB(new User(
-            userId: uID,
-            email: email,
-            firstName: firstName,
-            lastName: lastName,
-          ));
-        });*/
-        //now automatically login user too
-        //await StateWidget.of(context).logInUser(email, password);
-        await Navigator.pushNamed(context, '/signin');
+        List<String> keys = await Auth.signUp(firstName,lastName,email,mobileNumber, password);
+
+
+        print(keys[0]);
+        if(keys[0]!='200' && keys[0]!='201')
+
+          {
+
+            print("Inside If");
+            _changeLoadingVisible();
+            Flushbar(
+              title: "Sign Up Error",
+              message: keys[1],
+              duration: Duration(seconds: 5),
+            )..show(context);
+          }
+        else {
+         // _changeLoadingVisible();
+
+          await Navigator.pushNamed(context, '/MainMenu');
+        }
       } catch (e) {
+
         _changeLoadingVisible();
-        print("Sign Up Error: $e");
-        String exception = Auth.getExceptionText(e);
+        print("Sign In Error: $e");
+        //String exception = Auth.getExceptionText(e);
+        String exception = e.toString();
         Flushbar(
           title: "Sign Up Error",
-          message: exception,
+          message: "Something Went Wrong",
           duration: Duration(seconds: 5),
         )..show(context);
       }
@@ -378,4 +402,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() => _autoValidate = true);
     }
   }
+
+
+
 }

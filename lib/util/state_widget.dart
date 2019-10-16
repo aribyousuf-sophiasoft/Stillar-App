@@ -45,18 +45,19 @@ class _StateWidgetState extends State<StateWidget> {
   }
 
   Future<Null> initUser() async {
-    print("initUser() called");
     Result user = await Auth.getUserLocal();
     Settings settings = await Auth.getSettingsLocal();
     String token = await Auth.getTokenLocal();
     String userId = await Auth.getCookieLocal();
-    print("token from pref: $token");
+    String otpAuthenticated=await Auth.getOtpAuthenticatedLocal();
     setState(() {
       state.isLoading = false;
       state.token = token;
       state.user = user;
       state.settings = settings;
       state.userId = userId;
+
+
     });
   }
 

@@ -77,7 +77,7 @@ class _SignInScreenState extends State<SignInScreen> {
           autofocus: false,
           obscureText: true,
           controller: _password,
-          validator: Validator.validatePassword,
+         // validator: Validator.validatePassword,
           decoration: InputDecoration(
             prefixIcon: Padding(
               padding: EdgeInsets.only(left: 5.0),

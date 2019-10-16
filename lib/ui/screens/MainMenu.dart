@@ -53,7 +53,14 @@ class MenuState extends State<Menu> {
     appState = StateWidget.of(context).state;
     if (!appState.isLoading && (appState.user == null)) {
       return null;
-    } else {
+    }
+
+    else if (!appState.user.otpAuthenticated)
+    {
+      return null;
+    }
+    else
+     {
       for (var i = 0; i < widget.drawerItems.length; i++) {
         var d = widget.drawerItems[i];
         drawerOptions.add(new ListTile(
@@ -81,7 +88,13 @@ class MenuState extends State<Menu> {
     appState = StateWidget.of(context).state;
     if (!appState.isLoading && (appState.user == null)) {
       return null;
-    } else {
+    }
+
+    else if (!appState.user.otpAuthenticated)
+    {
+      return null;
+    }
+    else {
       return AppBar(
         // here we display the title corresponding to the fragment
         // you can instead choose to have a static title

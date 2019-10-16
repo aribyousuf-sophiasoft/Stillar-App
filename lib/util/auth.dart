@@ -20,6 +20,27 @@ class Auth {
     return keys;
   }
 
+
+  static Future<List<String>> signUp(String firstName, String lastName,String email,String mobileNumber, String password) async {
+    var keys = new List<String>(2);
+    try {
+      CustomerSignUpResult customerSignUpResult =
+      await StillarAuth.signUp(
+          firstName, lastName, email, mobileNumber, password);
+
+      keys[0] = customerSignUpResult.statusCode;
+      keys[1] = customerSignUpResult.message;
+
+    }
+
+    catch(e)
+    {
+      print(e);
+      throw Exception("Some thing went wrong");
+    }
+    return keys;
+  }
+
   static Future<GetCustomerProfileResult> getUser(String token, String userId) async {
     if (token != null && userId != null) {
       return await StillarAuth.getUserProfile(token, userId);
@@ -34,6 +55,10 @@ class Auth {
     await prefs.setString('token', token);
   }
 
+  static Future<void> storeOtpAuthenticatedLocal(String otpAuthenticated) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('otpAuthenticated', otpAuthenticated);
+  }
   static Future<void> storeCookieLocal(String userID) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('userID', userID);
@@ -59,6 +84,17 @@ class Auth {
       Result user = result(prefs.getString('user'));
       print('USER: $user');
       return user;
+    } else {
+      return null;
+    }
+  }
+
+
+  static Future<String> getOtpAuthenticatedLocal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('otpAuthenticated') != null) {
+      String token = prefs.getString('otpAuthenticated');
+      return token;
     } else {
       return null;
     }
