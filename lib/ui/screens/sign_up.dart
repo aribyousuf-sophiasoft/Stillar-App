@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/services.dart';
-import 'package:chat_app/models/user.dart';
 import 'package:chat_app/util/auth.dart';
 import 'package:chat_app/util/validator.dart';
 import 'package:chat_app/ui/widgets/loading.dart';
-import 'package:country_pickers/country_pickers.dart';
+import 'package:chat_app/util/transitions.dart';
+import 'package:chat_app/ui/screens/verification.dart';
 
 class SignUpScreen extends StatefulWidget {
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -223,7 +223,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, SlideLeftRoute(page: VerificationScreen()));
+        },
         padding: EdgeInsets.all(12),
         color: Color(0xFF00269d),
         child: Text('SIGNUP',

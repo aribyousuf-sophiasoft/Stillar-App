@@ -6,7 +6,7 @@ import 'package:chat_app/ui/screens/home.dart';
 import 'package:chat_app/ui/screens/sign_in.dart';
 import 'package:chat_app/ui/screens/sign_up.dart';
 import 'package:chat_app/ui/screens/forgot_password.dart';
-
+import 'package:chat_app/ui/screens/verification.dart';
 
 void main() {
   StateWidget stateWidget = new StateWidget(
@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/signin': (context) => SignInScreen(),
         '/signup': (context) => SignUpScreen(),
         '/forgot-password': (context) => ForgotPasswordScreen(),
+        '/verification': (context) => VerificationScreen(),
       },
     );
   }
