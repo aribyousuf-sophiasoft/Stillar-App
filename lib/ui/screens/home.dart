@@ -17,6 +17,67 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel", style: new TextStyle(
+        color: Colors.black,
+        fontFamily: 'Poppins',
+      ),),
+      onPressed:  () {
+        Navigator.pop(context, false);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Done", style: new TextStyle(
+        color: Color(0xFF4cb39e),
+        fontFamily: 'Poppins',
+      ),),
+      onPressed:  () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("List Name", style:  new TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Poppins',
+      ),),
+      content: Container(
+        color: Colors.white,
+        child: TextFormField(
+          style: new TextStyle(fontFamily: 'Poppins'),
+          keyboardType: TextInputType.text,
+          autofocus: false,
+          decoration: InputDecoration(
+            hintText: 'Enter your list name',
+            hintStyle: new TextStyle(
+              color: Colors.grey,
+              fontSize: 12,
+              fontFamily: 'Poppins',
+            ),
+            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                borderSide:
+                const BorderSide(color: Colors.transparent, width: 0.0)),
+          ),
+        ),
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   Widget build(BuildContext context) {
     appState = StateWidget.of(context).state;
     if (!appState.isLoading && (appState.user == null)) {
@@ -63,8 +124,92 @@ class _HomeScreenState extends State<HomeScreen> {
       final lastNameLabel = Text('Last Name: ');
       //final settingsIdLabel = Text('SettingsId: ');
 
+      final cartImage = Image(image: AssetImage('assets/images/home/empty.png'), height: 200);
+
+      final cartLabel =  Container(
+        alignment: Alignment.center,
+        child: new Column(
+          children: <Widget>[
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  'Create List For Shopping',
+                  style: new TextStyle(
+                      fontSize: 22.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins'),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+            new Padding(padding: EdgeInsets.only(top: 8.0)),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  'Sed imperdiet magna id ex venenatis',
+                  style: new TextStyle(
+                      fontSize: 13.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Poppins'),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+            new Padding(padding: EdgeInsets.only(top: 5.0)),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(
+                  'eu sollicitudin nisi efficitur',
+                  style: new TextStyle(
+                      fontSize: 13.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Poppins'),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
+      final createListButton = Padding(
+        padding: EdgeInsets.symmetric(vertical: 17.0),
+        child: RaisedButton(
+          elevation: 5.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          onPressed: () {
+            showAlertDialog(context);
+          },
+          padding: EdgeInsets.all(12),
+          color: Color(0xFF00269d),
+          child: Text('CREATE LIST', style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold)),
+        ),
+      );
+
+      final addProductLabel = FlatButton(
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new Text(
+              'ADD PRODUCT',
+              style: TextStyle(color: Color(0xFF00259e), fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        onPressed: () {
+        },
+      );
+
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFf8f9fb),
         body: LoadingScreen(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 48.0),
@@ -74,23 +219,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      userIdLabel,
-                      Text(userId,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      SizedBox(height: 12.0),
-                      tokenLabel,
-                      Text(token,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      SizedBox(height: 12.0),
-                      firstNameLabel,
-                      Text(firstName,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      SizedBox(height: 12.0),
-                      lastNameLabel,
-                      Text(lastName,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      SizedBox(height: 12.0),
-                      signOutButton,
+                      cartImage,
+                      SizedBox(height: 35.0),
+                      cartLabel,
+                      SizedBox(height: 15.0),
+                      createListButton,
+                      SizedBox(height: 15.0),
+                      addProductLabel,
                     ],
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:chat_app/ui/screens/Profile.dart';
 import 'package:chat_app/util/state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/ui/widgets/app_drawer.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DrawerItem {
   String title;
@@ -15,6 +16,7 @@ class DrawerItem {
 StateModel appState;
 
 class Menu extends StatefulWidget {
+
   final drawerItems = [
     new DrawerItem(
         "Home", new Image.asset('images/1080x1920/customer/sidebar/home.png')),
@@ -96,10 +98,33 @@ class MenuState extends State<Menu> {
     }
     else {
       return AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+          iconTheme: new IconThemeData(color: Colors.black),
         // here we display the title corresponding to the fragment
         // you can instead choose to have a static title
-        title: new Text(widget.drawerItems[_selectedDrawerIndex].title),
+        title: new Text(widget.drawerItems[_selectedDrawerIndex].title,
+            style: new TextStyle(
+            fontSize: 25,
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
+            fontFamily: 'Poppins')),
+          actions: <Widget>[
+            new IconButton(
+                icon: new Icon(
+                  FontAwesomeIcons.bell,
+                  color: Colors.black,
+                ),
+                onPressed: () {}),
+            new IconButton(
+                icon: new Icon(
+                  FontAwesomeIcons.shoppingCart,
+                  color: Colors.black,
+                ),
+                onPressed: () {}),
+          ]
       );
+
     }
   }
 

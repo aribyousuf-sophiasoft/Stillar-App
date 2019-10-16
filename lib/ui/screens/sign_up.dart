@@ -2,11 +2,11 @@ import 'package:chat_app/util/state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/services.dart';
-import 'package:chat_app/models/user.dart';
 import 'package:chat_app/util/auth.dart';
 import 'package:chat_app/util/validator.dart';
 import 'package:chat_app/ui/widgets/loading.dart';
-import 'package:country_pickers/country_pickers.dart';
+import 'package:chat_app/util/transitions.dart';
+import 'package:chat_app/ui/screens/verification.dart';
 
 class SignUpScreen extends StatefulWidget {
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -235,6 +235,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         onPressed: () {
           _emailSignUp(firstName:_firstName.text,lastName:_lastName.text,email:_email.text,mobileNumber:_mobileNumber.text,password:_password.text,context: context);
+
+
         },
         padding: EdgeInsets.all(12),
         color: Color(0xFF00269d),
