@@ -13,6 +13,6 @@ class StateModel {
     this.token,
     this.user,
     this.settings,
-    this.userId
+    this.userId,
   });
 }

@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
       theme: buildTheme(),
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => HomeScreen(),
+        '/Home': (context) => HomeScreen(),
         '/MainMenu': (context) => Menu(),
-        '/signin': (context) => SignInScreen(),
+        '/': (context) => SignInScreen(),
         '/signup': (context) => SignUpScreen(),
         '/forgot-password': (context) => ForgotPasswordScreen(),
         '/verification': (context) => VerificationScreen(),

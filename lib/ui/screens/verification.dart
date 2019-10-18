@@ -1,3 +1,7 @@
+import 'package:chat_app/models/state.dart';
+import 'package:chat_app/models/user.dart';
+import 'package:chat_app/ui/screens/MainMenu.dart';
+import 'package:chat_app/util/state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/services.dart';
@@ -21,15 +25,59 @@ class _VerificationScreenState extends State<VerificationScreen> {
   final TextEditingController _seventhDigit = new TextEditingController();
   final TextEditingController _eightDigit = new TextEditingController();
 
+
+  FocusNode textSecondFocusNode = new FocusNode();
+  FocusNode textThirdFocusNode = new FocusNode();
+  FocusNode textFourthFocusNode = new FocusNode();
+  FocusNode textFifthFocusNode = new FocusNode();
+  FocusNode textSixthFocusNode = new FocusNode();
+  FocusNode textSeventhFocusNode = new FocusNode();
+  FocusNode textEightFocusNode = new FocusNode();
+
   bool _autoValidate = false;
   bool _loadingVisible = false;
+
+  StateModel appState;
 
   @override
   void initState() {
     super.initState();
   }
 
+
+  void _VerifyOTP(
+      {String email, String otp, BuildContext context}) async {
+    if (_formKey.currentState.validate()) {
+      try {
+        SystemChannels.textInput.invokeMethod('TextInput.hide');
+        await _changeLoadingVisible();
+
+        String Token= await Auth.getTokenLocal();
+
+        List<String> keys = await Auth.verifyOTP(email,otp,Token);
+
+
+
+        appState.user.otpAuthenticated=true;
+
+        await Navigator.pushNamed(context, '/MainMenu');
+
+      } catch (e) {
+        _changeLoadingVisible();
+        String exception = e.toString();
+        Flushbar(
+          title: "Error",
+          message: exception,
+          duration: Duration(seconds: 5),
+        )
+          ..show(context);
+      }
+    } else {
+      setState(() => _autoValidate = true);
+    }
+  }
   Widget build(BuildContext context) {
+
 
     FocusNode textSecondFocusNode = new FocusNode();
     FocusNode textThirdFocusNode = new FocusNode();
@@ -38,6 +86,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
     FocusNode textSixthFocusNode = new FocusNode();
     FocusNode textSeventhFocusNode = new FocusNode();
     FocusNode textEightFocusNode = new FocusNode();
+
+
+    appState = StateWidget.of(context).state;
 
     final verificationImage = Image(
         image: AssetImage('assets/images/verification/verification.png'),
@@ -79,6 +130,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         ],
       ),
     );
+
 
     final firstDigit = Container(
       height: 40.0,
@@ -285,6 +337,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
       ),
     );
 
+
+
+
     final digitCode = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -315,7 +370,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
           borderRadius: BorderRadius.circular(5),
         ),
         onPressed: () {
-          Navigator.pushNamed(context, '/verification');
+          String OTP=_firstDigit.text+_secondDigit.text+_thirdDigit.text+_fourthDigit.text+_fifthDigit.text+_sixthDigit.text+_seventhDigit.text+_eightDigit.text;
+          String Email=appState.user.Email;
+          _VerifyOTP(email: Email,otp: OTP,context: context);
         },
         padding: EdgeInsets.all(12),
         color: Color(0xFF00269d),
