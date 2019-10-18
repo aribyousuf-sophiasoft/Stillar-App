@@ -35,8 +35,23 @@ class Auth {
 
     catch(e)
     {
-      print(e);
       throw Exception("Some thing went wrong");
+    }
+    return keys;
+  }
+
+
+
+  static Future<List<String>> verifyOTP(String email,String otp,String token) async {
+    var keys = new List<String>(2);
+    try {
+
+      await StillarAuth.verifyOTP(email,otp,token);
+    }
+
+    catch(e)
+    {
+      throw Exception(e);
     }
     return keys;
   }
@@ -78,11 +93,9 @@ class Auth {
   }
 
   static Future<Result> getUserLocal() async {
-    print("getUserLocal() called");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString('user') != null) {
       Result user = result(prefs.getString('user'));
-      print('USER: $user');
       return user;
     } else {
       return null;

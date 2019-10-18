@@ -75,7 +75,6 @@ class _StateWidgetState extends State<StateWidget> {
   Future<void> logInUser(email, password) async {
       print("logInUser() called");
       List<String> keys = await Auth.signIn(email, password);
-      print("Keys: $keys");
       GetCustomerProfileResult user = await Auth.getUser(keys[0], keys[1]);
       if (keys.isNotEmpty && user != null) {
         await Auth.storeTokenLocal(keys[0]);

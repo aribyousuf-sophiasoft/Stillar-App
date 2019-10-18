@@ -187,13 +187,15 @@ class Result {
   String imageUrl;
   String mobileNumber;
   bool otpAuthenticated;
+  String Email;
 
   Result({
     this.firstName,
     this.lastName,
     this.imageUrl,
     this.mobileNumber,
-    this.otpAuthenticated
+    this.otpAuthenticated,
+    this.Email
   });
 
   factory Result.fromJson(Map<String, dynamic> json) {
@@ -204,6 +206,7 @@ class Result {
         lastName: json["LastName"],
         imageUrl: json["ImageUrl"] ?? '',
         mobileNumber: json["MobileNumber"],
+        Email: json["Email"],
         otpAuthenticated:json["otpAuthenticated"]??false
     );
   }
@@ -213,6 +216,7 @@ class Result {
     "LastName": lastName,
     "ImageUrl": imageUrl ?? '',
     "MobileNumber": mobileNumber,
+    "Email": Email,
     "otpAuthenticated":otpAuthenticated??false
   };
 }

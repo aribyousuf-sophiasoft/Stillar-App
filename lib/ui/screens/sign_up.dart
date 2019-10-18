@@ -368,14 +368,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         SystemChannels.textInput.invokeMethod('TextInput.hide');
         await _changeLoadingVisible();
         List<String> keys = await Auth.signUp(firstName,lastName,email,mobileNumber, password);
-
-
-        print(keys[0]);
         if(keys[0]!='200' && keys[0]!='201')
 
           {
 
-            print("Inside If");
+
             _changeLoadingVisible();
             Flushbar(
               title: "Sign Up Error",
@@ -385,8 +382,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
         else {
          // _changeLoadingVisible();
-
-          await Navigator.pushNamed(context, '/MainMenu');
+          await StateWidget.of(context).logInUser(email, "test");
+          await Navigator.pushNamed(context, '/verification');
         }
       } catch (e) {
 

@@ -53,6 +53,7 @@ class MenuState extends State<Menu> {
   Widget _drawer() {
     var drawerOptions = <Widget>[];
     appState = StateWidget.of(context).state;
+
     if (!appState.isLoading && (appState.user == null)) {
       return null;
     }
@@ -91,11 +92,11 @@ class MenuState extends State<Menu> {
     if (!appState.isLoading && (appState.user == null)) {
       return null;
     }
-
-    else if (!appState.user.otpAuthenticated)
-    {
-      return null;
+    else if (!appState.user.otpAuthenticated && (appState.user != null)) {
+      return  null;
     }
+
+
     else {
       return AppBar(
         elevation: 0,

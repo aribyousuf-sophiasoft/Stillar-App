@@ -1,3 +1,4 @@
+import 'package:chat_app/ui/screens/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/models/state.dart';
 import 'package:chat_app/util/state_widget.dart';
@@ -79,14 +80,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget build(BuildContext context) {
-    appState = StateWidget.of(context).state;
+    appState = StateWidget
+        .of(context)
+        .state;
+
+
     if (!appState.isLoading && (appState.user == null)) {
-      return SignInScreen();
+     return SignInScreen();
     }
-    else if (!appState.user.otpAuthenticated)
-    {
-      return SignInScreen();
+    else if (!appState.user.otpAuthenticated && (appState.user != null)) {
+      return VerificationScreen();
     }
+
     else {
       if (appState.isLoading) {
         _loadingVisible = true;
@@ -104,7 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
             StateWidget.of(context).logOutUser();
           },
           padding: EdgeInsets.all(12),
-          color: Theme.of(context).primaryColor,
+          color: Theme
+              .of(context)
+              .primaryColor,
           child: Text('SIGN OUT', style: TextStyle(color: Colors.white)),
         ),
       );
@@ -124,9 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
       final lastNameLabel = Text('Last Name: ');
       //final settingsIdLabel = Text('SettingsId: ');
 
-      final cartImage = Image(image: AssetImage('assets/images/home/empty.png'), height: 200);
+      final cartImage = Image(
+          image: AssetImage('assets/images/home/empty.png'), height: 200);
 
-      final cartLabel =  Container(
+      final cartLabel = Container(
         alignment: Alignment.center,
         child: new Column(
           children: <Widget>[
@@ -190,7 +198,9 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           padding: EdgeInsets.all(12),
           color: Color(0xFF00269d),
-          child: Text('CREATE LIST', style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold)),
+          child: Text('CREATE LIST', style: TextStyle(color: Colors.white,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.bold)),
         ),
       );
 
@@ -200,12 +210,13 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             new Text(
               'ADD PRODUCT',
-              style: TextStyle(color: Color(0xFF00259e), fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+              style: TextStyle(color: Color(0xFF00259e),
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
-        onPressed: () {
-        },
+        onPressed: () {},
       );
 
       return Scaffold(
@@ -235,4 +246,5 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
   }
+
 }
