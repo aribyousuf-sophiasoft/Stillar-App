@@ -85,6 +85,49 @@ class CustomerLoginResult {
 }
 
 
+class ErrorException
+{
+  String Details;
+  String Error;
+
+  ErrorException({this.Details, this.Error});
+
+  factory ErrorException.fromJson(Map<String, dynamic> json) {
+    return ErrorException(
+      Details: json['Details'].toString(),
+      Error: json['Error'].toString(),
+    );
+  }
+
+
+  Map<String, dynamic> toJson() => {
+    "Details": Details,
+    "Error": Error,
+  };
+}
+
+class CustomerSignUpResult {
+  String message;
+  String statusCode;
+
+  CustomerSignUpResult({this.message, this.statusCode});
+
+  factory CustomerSignUpResult.fromJson(Map<String, dynamic> json) {
+    return CustomerSignUpResult(
+      message: json['CustomerSignUpResult']['Message'].toString(),
+      statusCode: json['CustomerSignUpResult']['StatusCode'].toString(),
+    );
+  }
+
+
+  Map<String, dynamic> toJson() => {
+    "Message": message,
+    "StatusCode": statusCode,
+  };
+
+}
+
+
 GetCustomerProfileResult getCustomerProfileResult(String str) {
   final jsonData = json.decode(str);
   print("getCustomerProfileResult() called");
@@ -143,28 +186,28 @@ class Result {
   String lastName;
   String imageUrl;
   String mobileNumber;
+  bool otpAuthenticated;
+  String Email;
 
   Result({
     this.firstName,
     this.lastName,
     this.imageUrl,
     this.mobileNumber,
+    this.otpAuthenticated,
+    this.Email
   });
 
   factory Result.fromJson(Map<String, dynamic> json) {
 
-    print("Result.fromJson() called");
-
-    print(json["FirstName"].toString());
-    print(json["LastName"].toString());
-    print(json["MobileNumber"].toString());
-    print(json["ImageUrl"]);
 
     return Result(
         firstName: json["FirstName"],
         lastName: json["LastName"],
         imageUrl: json["ImageUrl"] ?? '',
-        mobileNumber: json["MobileNumber"]
+        mobileNumber: json["MobileNumber"],
+        Email: json["Email"],
+        otpAuthenticated:json["otpAuthenticated"]??false
     );
   }
 
@@ -173,5 +216,7 @@ class Result {
     "LastName": lastName,
     "ImageUrl": imageUrl ?? '',
     "MobileNumber": mobileNumber,
+    "Email": Email,
+    "otpAuthenticated":otpAuthenticated??false
   };
 }
