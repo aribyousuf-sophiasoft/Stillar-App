@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:chat_app/models/state.dart';
 import 'package:chat_app/util/state_widget.dart';
 import 'package:chat_app/ui/screens/sign_in.dart';
+import 'package:chat_app/ui/screens/product_details.dart';
 import 'package:chat_app/ui/widgets/loading.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,7 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Color(0xFF4cb39e),
         fontFamily: 'Poppins',
       ),),
-      onPressed:  () {},
+      onPressed:  () {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (BuildContext context) => new ProductDetailScreen(),
+            ));
+      },
     );
 
     // set up the AlertDialog
@@ -228,6 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             inAsyncCall: _loadingVisible),
       );
+
     }
   }
 }

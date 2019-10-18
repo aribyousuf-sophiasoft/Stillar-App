@@ -31,6 +31,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   Widget build(BuildContext context) {
 
+    FocusNode textSecondFocusNode = new FocusNode();
+    FocusNode textThirdFocusNode = new FocusNode();
+    FocusNode textFourthFocusNode = new FocusNode();
+    FocusNode textFifthFocusNode = new FocusNode();
+    FocusNode textSixthFocusNode = new FocusNode();
+    FocusNode textSeventhFocusNode = new FocusNode();
+    FocusNode textEightFocusNode = new FocusNode();
+
     final verificationImage = Image(
         image: AssetImage('assets/images/verification/verification.png'),
         height: 200);
@@ -77,17 +85,23 @@ class _VerificationScreenState extends State<VerificationScreen> {
       width: 35.0,
       color: Colors.white,
       child: TextFormField(
+        textInputAction: TextInputAction.next,
+        maxLength: 1,
         style: new TextStyle(fontFamily: 'Poppins'),
-        autofocus: false,
+        textCapitalization: TextCapitalization.words,
+        autofocus: true,
         keyboardType: TextInputType.text,
         controller: _firstDigit,
-        validator: Validator.validateNumber,
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(textSecondFocusNode);
+        },
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          counterText: '',
+          contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 2.0, 10.0),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide:
-                  const BorderSide(color: Colors.transparent, width: 0.0)),
+              const BorderSide(color: Colors.transparent, width: 0.0)),
         ),
       ),
     );
@@ -97,13 +111,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
       width: 35.0,
       color: Colors.white,
       child: TextFormField(
+        textInputAction: TextInputAction.next,
+        maxLength: 1,
         style: new TextStyle(fontFamily: 'Poppins'),
         autofocus: false,
         keyboardType: TextInputType.text,
         controller: _secondDigit,
-        validator: Validator.validateNumber,
+        focusNode: textSecondFocusNode,
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(textThirdFocusNode);
+        },
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          counterText: '',
+          contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 2.0, 10.0),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide:
@@ -117,13 +137,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
       width: 35.0,
       color: Colors.white,
       child: TextFormField(
+        textInputAction: TextInputAction.next,
+        maxLength: 1,
         style: new TextStyle(fontFamily: 'Poppins'),
         autofocus: false,
         keyboardType: TextInputType.text,
         controller: _thirdDigit,
-        validator: Validator.validateNumber,
+        focusNode: textThirdFocusNode,
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(textFourthFocusNode);
+        },
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          counterText: '',
+          contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 2.0, 10.0),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide:
@@ -137,13 +163,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
       width: 35.0,
       color: Colors.white,
       child: TextFormField(
+        textInputAction: TextInputAction.next,
+        maxLength: 1,
         style: new TextStyle(fontFamily: 'Poppins'),
         autofocus: false,
         keyboardType: TextInputType.text,
         controller: _fourthDigit,
-        validator: Validator.validateNumber,
+        focusNode: textFourthFocusNode,
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(textFifthFocusNode);
+        },
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          counterText: '',
+          contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 2.0, 10.0),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide:
@@ -157,13 +189,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
       width: 35.0,
       color: Colors.white,
       child: TextFormField(
+        textInputAction: TextInputAction.next,
+        maxLength: 1,
         style: new TextStyle(fontFamily: 'Poppins'),
         autofocus: false,
         keyboardType: TextInputType.text,
         controller: _fifthDigit,
-        validator: Validator.validateNumber,
+        focusNode: textFifthFocusNode,
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(textSixthFocusNode);
+        },
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          counterText: '',
+          contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 2.0, 10.0),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide:
@@ -177,13 +215,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
       width: 35.0,
       color: Colors.white,
       child: TextFormField(
-        style: new TextStyle(fontFamily: 'Poppins'),
+        textInputAction: TextInputAction.next,
+        maxLength: 1,
+        style: new TextStyle(fontFamily: 'Poppins', color: Colors.black),
         autofocus: false,
         keyboardType: TextInputType.text,
         controller: _sixthDigit,
-        validator: Validator.validateNumber,
+        focusNode: textSixthFocusNode,
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(textSeventhFocusNode);
+        },
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          counterText: '',
+          contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 2.0, 10.0),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide:
@@ -197,13 +241,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
       width: 35.0,
       color: Colors.white,
       child: TextFormField(
+        textInputAction: TextInputAction.next,
+        maxLength: 1,
         style: new TextStyle(fontFamily: 'Poppins'),
         autofocus: false,
         keyboardType: TextInputType.text,
         controller: _seventhDigit,
-        validator: Validator.validateNumber,
+        focusNode: textSeventhFocusNode,
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(textEightFocusNode);
+        },
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          counterText: '',
+          contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 2.0, 10.0),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide:
@@ -217,13 +267,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
       width: 35.0,
       color: Colors.white,
       child: TextFormField(
-        style: new TextStyle(fontFamily: 'Poppins'),
+        textInputAction: TextInputAction.next,
+        maxLength: 1,
+        style: new TextStyle(fontFamily: 'Poppins', color: Colors.black,),
         autofocus: false,
         keyboardType: TextInputType.text,
         controller: _eightDigit,
-        validator: Validator.validateNumber,
+        focusNode: textEightFocusNode,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          counterText: '',
+          contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 2.0, 10.0),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide:
