@@ -458,5 +458,5 @@ class _VerificationScreenState extends State<VerificationScreen> {
     });
   }
 
-  void _verifyOTP() {}
+  
 }
