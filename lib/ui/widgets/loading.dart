@@ -56,7 +56,7 @@ class LoadingScreen extends StatelessWidget {
                 height: 60,
                 width: 60,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: Color(0xFF00269d),
                   shape: BoxShape.circle,
                 ),
                 //need this due to bug...https://github.com/flutter/flutter/issues/18399

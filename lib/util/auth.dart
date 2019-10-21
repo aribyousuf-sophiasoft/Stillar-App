@@ -35,7 +35,7 @@ class Auth {
 
     catch(e)
     {
-      throw Exception("Some thing went wrong");
+      throw ("Some thing went wrong");
     }
     return keys;
   }

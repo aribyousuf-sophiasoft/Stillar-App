@@ -2,17 +2,16 @@ import 'dart:ui';
 import 'package:chat_app/models/state.dart';
 import 'package:chat_app/ui/screens/home.dart';
 import 'package:chat_app/ui/screens/verification.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/services.dart';
 import 'package:chat_app/util/state_widget.dart';
-import 'package:chat_app/util/auth.dart';
 import 'package:chat_app/util/validator.dart';
 import 'package:chat_app/ui/widgets/loading.dart';
 import 'package:chat_app/util/transitions.dart';
 import 'package:chat_app/ui/screens/sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:chat_app/util/alert.dart';
 
 class SignInScreen extends StatefulWidget {
   _SignInScreenState createState() => _SignInScreenState();
@@ -27,11 +26,11 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _loadingVisible = false;
   StateModel appState;
 
-
   @override
   void initState() {
     super.initState();
   }
+
   static Future<void> signOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -40,20 +39,13 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     //signOut();
 
-    if (appState!= null) {
-
-      if(appState.user.otpAuthenticated)
-        {
-          return HomeScreen();
-        }
-      else
-        {
-          return VerificationScreen();
-        }
-
-    }
-
-    else {
+    if (appState != null) {
+      if (appState.user.otpAuthenticated) {
+        return HomeScreen();
+      } else {
+        return VerificationScreen();
+      }
+    } else {
       Future<void> _changeLoadingVisible() async {
         setState(() {
           _loadingVisible = !_loadingVisible;
@@ -68,22 +60,19 @@ class _SignInScreenState extends State<SignInScreen> {
             await _changeLoadingVisible();
             //need await so it has chance to go through error if found.
             await StateWidget.of(context).logInUser(email, password);
-
             await Navigator.pushNamed(context, '/MainMenu');
           } catch (e) {
+            print(e);
             _changeLoadingVisible();
             String exception = e.toString();
-            Flushbar(
-              title: "Sign In Error",
-              message: exception,
-              duration: Duration(seconds: 5),
-            )
-              ..show(context);
+            exception = exception.split(': ')[1];
+            Alert.showError(context, "Sign In Error", exception);
           }
         } else {
           setState(() => _autoValidate = true);
         }
       }
+
       final logo = Container(
         height: 120,
         decoration: BoxDecoration(
@@ -120,7 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
                 borderSide:
-                const BorderSide(color: Colors.transparent, width: 0.0)),
+                    const BorderSide(color: Colors.transparent, width: 0.0)),
           ),
         ),
       );
@@ -152,14 +141,15 @@ class _SignInScreenState extends State<SignInScreen> {
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5.0),
                   borderSide:
-                  const BorderSide(color: Colors.transparent, width: 0.0)),
+                      const BorderSide(color: Colors.transparent, width: 0.0)),
             ),
           ));
 
       final forgotLabel = FlatButton(
         child: Text(
           'Forgot Password?',
-          style: TextStyle(color: Colors.black,
+          style: TextStyle(
+              color: Colors.black,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w400),
         ),
@@ -181,9 +171,11 @@ class _SignInScreenState extends State<SignInScreen> {
           },
           padding: EdgeInsets.all(12),
           color: Color(0xFF00269d),
-          child: Text('LOGIN', style: TextStyle(color: Colors.white,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.bold)),
+          child: Text('LOGIN',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold)),
         ),
       );
 
@@ -193,13 +185,15 @@ class _SignInScreenState extends State<SignInScreen> {
             new Padding(padding: EdgeInsets.only(left: 30)),
             new Text(
               'Don\'t have an accout?',
-              style: TextStyle(color: Colors.black,
+              style: TextStyle(
+                  color: Colors.black,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w400),
             ),
             new Text(
               ' Signup Now',
-              style: TextStyle(color: Color(0xFF3f70fc),
+              style: TextStyle(
+                  color: Color(0xFF3f70fc),
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600),
             ),
@@ -225,9 +219,11 @@ class _SignInScreenState extends State<SignInScreen> {
               new Padding(padding: EdgeInsets.only(left: 60)),
               Icon(FontAwesomeIcons.facebookF, color: Colors.white),
               new Padding(padding: EdgeInsets.only(left: 5)),
-              Text('LOGIN WITH FACEBOOK', style: TextStyle(color: Colors.white,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w400))
+              Text('LOGIN WITH FACEBOOK',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400))
             ],
           ),
         ),
@@ -276,5 +272,4 @@ class _SignInScreenState extends State<SignInScreen> {
       );
     }
   }
-  }
-
+}
