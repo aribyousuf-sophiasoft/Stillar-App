@@ -16,7 +16,6 @@ class DrawerItem {
 StateModel appState;
 
 class Menu extends StatefulWidget {
-
   final drawerItems = [
     new DrawerItem(
         "Home", new Image.asset('images/1080x1920/customer/sidebar/home.png')),
@@ -56,14 +55,9 @@ class MenuState extends State<Menu> {
 
     if (!appState.isLoading && (appState.user == null)) {
       return null;
-    }
-
-    else if (!appState.user.otpAuthenticated)
-    {
+    } else if (!appState.user.otpAuthenticated) {
       return null;
-    }
-    else
-     {
+    } else {
       for (var i = 0; i < widget.drawerItems.length; i++) {
         var d = widget.drawerItems[i];
         drawerOptions.add(new ListTile(
@@ -91,25 +85,21 @@ class MenuState extends State<Menu> {
     appState = StateWidget.of(context).state;
     if (!appState.isLoading && (appState.user == null)) {
       return null;
-    }
-    else if (!appState.user.otpAuthenticated && (appState.user != null)) {
-      return  null;
-    }
-
-
-    else {
+    } else if (!appState.user.otpAuthenticated && (appState.user != null)) {
+      return null;
+    } else {
       return AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
           iconTheme: new IconThemeData(color: Colors.black),
-        // here we display the title corresponding to the fragment
-        // you can instead choose to have a static title
-        title: new Text(widget.drawerItems[_selectedDrawerIndex].title,
-            style: new TextStyle(
-            fontSize: 25,
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Poppins')),
+          // here we display the title corresponding to the fragment
+          // you can instead choose to have a static title
+          title: new Text(widget.drawerItems[_selectedDrawerIndex].title,
+              style: new TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Poppins')),
           actions: <Widget>[
             new IconButton(
                 icon: new Icon(
@@ -123,9 +113,7 @@ class MenuState extends State<Menu> {
                   color: Colors.black,
                 ),
                 onPressed: () {}),
-          ]
-      );
-
+          ]);
     }
   }
 

@@ -1,12 +1,10 @@
 import 'package:chat_app/util/state_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/services.dart';
 import 'package:chat_app/util/auth.dart';
 import 'package:chat_app/util/validator.dart';
 import 'package:chat_app/ui/widgets/loading.dart';
-import 'package:chat_app/util/transitions.dart';
-import 'package:chat_app/ui/screens/verification.dart';
+import 'package:chat_app/util/alert.dart';
 
 class SignUpScreen extends StatefulWidget {
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -151,7 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
               borderSide:
-              const BorderSide(color: Colors.transparent, width: 0.0)),
+                  const BorderSide(color: Colors.transparent, width: 0.0)),
         ),
       ),
     );
@@ -194,15 +192,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           autofocus: false,
           obscureText: true,
           controller: _confirmPassword,
-         validator: (value) {
-    if (value != _password.text) {
-    return 'Password Does not match';
-    }
-    else
-      {
-        return null;
-      }
-    },
+          validator: (value) {
+            if (value != _password.text) {
+              return 'Password Does not match';
+            } else {
+              return null;
+            }
+          },
           decoration: InputDecoration(
             prefixIcon: Padding(
               padding: EdgeInsets.only(left: 5.0),
@@ -234,9 +230,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           borderRadius: BorderRadius.circular(5),
         ),
         onPressed: () {
-          _emailSignUp(firstName:_firstName.text,lastName:_lastName.text,email:_email.text,mobileNumber:_mobileNumber.text,password:_password.text,context: context);
-
-
+          _emailSignUp(
+              firstName: _firstName.text,
+              lastName: _lastName.text,
+              email: _email.text,
+              mobileNumber: _mobileNumber.text,
+              password: _password.text,
+              context: context);
         },
         padding: EdgeInsets.all(12),
         color: Color(0xFF00269d),
@@ -284,7 +284,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         new Container(
           height: double.infinity,
           width: double.infinity,
-          decoration:new BoxDecoration(
+          decoration: new BoxDecoration(
             image: new DecorationImage(
               image: new AssetImage("assets/images/login/background.png"),
               fit: BoxFit.cover,
@@ -367,41 +367,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
       try {
         SystemChannels.textInput.invokeMethod('TextInput.hide');
         await _changeLoadingVisible();
-        List<String> keys = await Auth.signUp(firstName,lastName,email,mobileNumber, password);
-        if(keys[0]!='200' && keys[0]!='201')
-
-          {
-
-
-            _changeLoadingVisible();
-            Flushbar(
-              title: "Sign Up Error",
-              message: keys[1],
-              duration: Duration(seconds: 5),
-            )..show(context);
-          }
-        else {
-         // _changeLoadingVisible();
+        List<String> keys = await Auth.signUp(
+            firstName, lastName, email, mobileNumber, password);
+        if (keys[0] != '200' && keys[0] != '201') {
+          _changeLoadingVisible();
+          Alert.showError(context, "Sign Up Error", keys[1]);
+        } else {
+          // _changeLoadingVisible();
           await StateWidget.of(context).logInUser(email, "test");
           await Navigator.pushNamed(context, '/verification');
         }
       } catch (e) {
-
         _changeLoadingVisible();
         print("Sign In Error: $e");
-        //String exception = Auth.getExceptionText(e);
-        String exception = e.toString();
-        Flushbar(
-          title: "Sign Up Error",
-          message: "Something Went Wrong",
-          duration: Duration(seconds: 5),
-        )..show(context);
+        Alert.showError(context, "Sign Up Error", "Something Went Wrong");
       }
     } else {
       setState(() => _autoValidate = true);
     }
   }
-
-
-
 }
