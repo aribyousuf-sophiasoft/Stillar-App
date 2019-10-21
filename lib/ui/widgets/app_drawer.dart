@@ -107,7 +107,11 @@ class AppDrawer extends StatelessWidget {
                   children: <Widget>[
                     new Text(
                       'App Version 1.0.1',
-                      style: new TextStyle(color: Colors.grey, fontFamily: 'Poppins',  fontSize: 10, fontWeight: FontWeight.w500),
+                      style: new TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'Poppins',
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -117,7 +121,11 @@ class AppDrawer extends StatelessWidget {
                   children: <Widget>[
                     new Text(
                       'Copyright © 2019 Stillar.',
-                      style: new TextStyle(color: Colors.grey, fontFamily: 'Poppins',  fontSize: 10, fontWeight: FontWeight.w500),
+                      style: new TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'Poppins',
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center,
                     ),
                   ],

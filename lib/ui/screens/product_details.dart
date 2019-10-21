@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/services.dart';
-import 'package:chat_app/util/auth.dart';
 import 'package:chat_app/util/validator.dart';
 import 'package:chat_app/ui/widgets/loading.dart';
 import 'package:chat_app/util/transitions.dart';
-import 'package:chat_app/ui/screens/verification.dart';
 import 'package:chat_app/ui/screens/product.dart';
+import 'package:chat_app/ui/screens/carousel.dart';
+
 
 class ProductDetailScreen extends StatefulWidget {
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -26,7 +25,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget build(BuildContext context) {
-    
     final productName = Container(
       color: Colors.white,
       child: TextFormField(
@@ -50,7 +48,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
       ),
     );
-    
+
     final nextButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 18.0),
       child: RaisedButton(
@@ -59,7 +57,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           borderRadius: BorderRadius.circular(5),
         ),
         onPressed: () {
-          Navigator.push(context, SlideLeftRoute(page: ProductScreen()));
+          Navigator.push(context, SlideLeftRoute(page: ImageCarousel()));
         },
         padding: EdgeInsets.all(12),
         color: Color(0xFF00269d),
@@ -156,7 +154,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       fit: BoxFit.scaleDown,
                                       alignment: Alignment.center,
                                     ),
-                                        () {},
+                                    () {},
                                     Colors.grey),
                                 productImageItem(
                                     "Add Left Image",
@@ -169,7 +167,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       fit: BoxFit.scaleDown,
                                       alignment: Alignment.center,
                                     ),
-                                        () {},
+                                    () {},
                                     Colors.grey),
                                 productImageItem(
                                     "Add Right Image",
@@ -182,7 +180,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       fit: BoxFit.scaleDown,
                                       alignment: Alignment.center,
                                     ),
-                                        () {},
+                                    () {},
                                     Colors.grey),
                               ],
                             ),
@@ -203,7 +201,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Card productImageItem(
       String title, Image image, GestureTapCallback onTap, Color color) {
     return Card(
-      elevation: 0,
+        elevation: 0,
         margin: new EdgeInsets.all(4.0),
         child: Container(
           decoration: BoxDecoration(
@@ -227,9 +225,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     alignment: Alignment.center,
                     child: new Column(
                       children: <Widget>[
-                        new Padding(
-                            padding:
-                                EdgeInsets.only(top: 10.0)),
+                        new Padding(padding: EdgeInsets.only(top: 10.0)),
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[

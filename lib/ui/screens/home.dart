@@ -22,20 +22,26 @@ class _HomeScreenState extends State<HomeScreen> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = FlatButton(
-      child: Text("Cancel", style: new TextStyle(
-        color: Colors.black,
-        fontFamily: 'Poppins',
-      ),),
-      onPressed:  () {
+      child: Text(
+        "Cancel",
+        style: new TextStyle(
+          color: Colors.black,
+          fontFamily: 'Poppins',
+        ),
+      ),
+      onPressed: () {
         Navigator.pop(context, false);
       },
     );
     Widget continueButton = FlatButton(
-      child: Text("Done", style: new TextStyle(
-        color: Color(0xFF4cb39e),
-        fontFamily: 'Poppins',
-      ),),
-      onPressed:  () {
+      child: Text(
+        "Done",
+        style: new TextStyle(
+          color: Color(0xFF4cb39e),
+          fontFamily: 'Poppins',
+        ),
+      ),
+      onPressed: () {
         Navigator.push(
             context,
             new MaterialPageRoute(
@@ -46,11 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("List Name", style:  new TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontFamily: 'Poppins',
-      ),),
+      title: Text(
+        "List Name",
+        style: new TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Poppins',
+        ),
+      ),
       content: Container(
         color: Colors.white,
         child: TextFormField(
@@ -68,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
                 borderSide:
-                const BorderSide(color: Colors.transparent, width: 0.0)),
+                    const BorderSide(color: Colors.transparent, width: 0.0)),
           ),
         ),
       ),
@@ -87,19 +96,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget build(BuildContext context) {
-    appState = StateWidget
-        .of(context)
-        .state;
-
+    appState = StateWidget.of(context).state;
 
     if (!appState.isLoading && (appState.user == null)) {
-     return SignInScreen();
-    }
-    else if (!appState.user.otpAuthenticated && (appState.user != null)) {
+      return SignInScreen();
+    } else if (!appState.user.otpAuthenticated && (appState.user != null)) {
       return VerificationScreen();
-    }
-
-    else {
+    } else {
       if (appState.isLoading) {
         _loadingVisible = true;
       } else {
@@ -116,9 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
             StateWidget.of(context).logOutUser();
           },
           padding: EdgeInsets.all(12),
-          color: Theme
-              .of(context)
-              .primaryColor,
+          color: Theme.of(context).primaryColor,
           child: Text('SIGN OUT', style: TextStyle(color: Colors.white)),
         ),
       );
@@ -138,8 +139,8 @@ class _HomeScreenState extends State<HomeScreen> {
       final lastNameLabel = Text('Last Name: ');
       //final settingsIdLabel = Text('SettingsId: ');
 
-      final cartImage = Image(
-          image: AssetImage('assets/images/home/empty.png'), height: 200);
+      final cartImage =
+          Image(image: AssetImage('assets/images/home/empty.png'), height: 200);
 
       final cartLabel = Container(
         alignment: Alignment.center,
@@ -205,9 +206,11 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           padding: EdgeInsets.all(12),
           color: Color(0xFF00269d),
-          child: Text('CREATE LIST', style: TextStyle(color: Colors.white,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.bold)),
+          child: Text('CREATE LIST',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold)),
         ),
       );
 
@@ -217,7 +220,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             new Text(
               'ADD PRODUCT',
-              style: TextStyle(color: Color(0xFF00259e),
+              style: TextStyle(
+                  color: Color(0xFF00259e),
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold),
             ),
@@ -251,8 +255,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             inAsyncCall: _loadingVisible),
       );
-
     }
   }
-
 }

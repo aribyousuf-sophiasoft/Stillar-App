@@ -7,6 +7,7 @@ import 'package:chat_app/ui/screens/sign_in.dart';
 import 'package:chat_app/ui/screens/sign_up.dart';
 import 'package:chat_app/ui/screens/forgot_password.dart';
 import 'package:chat_app/ui/screens/verification.dart';
+import 'package:chat_app/ui/screens/carousel.dart';
 
 void main() {
   StateWidget stateWidget = new StateWidget(

@@ -8,18 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatelessWidget {
   @override
-
-
   StateModel appState;
 
-  Widget build(BuildContext context)
-
-  {
+  Widget build(BuildContext context) {
     appState = StateWidget.of(context).state;
     if (!appState.isLoading && (appState.user == null)) {
       return SignInScreen();
     }
-
 
     final AddShippingAddress = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -27,27 +22,17 @@ class Profile extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () {
-
-        },
+        onPressed: () {},
         padding: EdgeInsets.all(12),
         color: Theme.of(context).primaryColor,
-        child: Text('AddShippingAddress', style: TextStyle(color: Colors.white)),
+        child:
+            Text('AddShippingAddress', style: TextStyle(color: Colors.white)),
       ),
     );
 
     // TODO: implement build
     return new Center(
-      child: new Text("Hello "+appState?.user?.firstName ?? ''),
-
+      child: new Text("Hello " + appState?.user?.firstName ?? ''),
     );
-
-
-
-
   }
-
-
-
 }
-

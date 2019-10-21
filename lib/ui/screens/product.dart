@@ -15,7 +15,6 @@ final List<String> imgList = [
   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
 ];
 
-
 final Widget placeholder = Container(color: Colors.grey);
 
 List<T> map<T>(List list, Function handler) {
@@ -27,36 +26,34 @@ List<T> map<T>(List list, Function handler) {
   return result;
 }
 
-final List child = map<Widget>(imgList, (index, i) {
-  return Container(
-    margin: EdgeInsets.all(5.0),
-    child: ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-      child: Stack(children: <Widget>[
-        Image.network(i, fit: BoxFit.cover, width: 1000.0),
-        Positioned(
-          bottom: 0.0,
-          left: 0.0,
-          right: 0.0,
-          child: Container(
-
-            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+final List child = map<Widget>(
+  imgList,
+  (index, i) {
+    return Container(
+      margin: EdgeInsets.all(5.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        child: Stack(children: <Widget>[
+          Image.network(i, fit: BoxFit.cover, width: 1000.0),
+          Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            ),
           ),
-        ),
-      ]),
-    ),
-  );
-},
+        ]),
+      ),
+    );
+  },
 ).toList();
-
-
 
 class ProductScreen extends StatefulWidget {
   _ProductScreenState createState() => _ProductScreenState();
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-
   int _current = 0;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -70,8 +67,6 @@ class _ProductScreenState extends State<ProductScreen> {
   void initState() {
     super.initState();
   }
-
-
 
   Widget build(BuildContext context) {
     return Column(children: [
@@ -118,9 +113,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     alignment: Alignment.center,
                     child: new Column(
                       children: <Widget>[
-                        new Padding(
-                            padding:
-                            EdgeInsets.only(top: 10.0)),
+                        new Padding(padding: EdgeInsets.only(top: 10.0)),
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
