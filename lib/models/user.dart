@@ -140,6 +140,9 @@ String getCustomerProfileResultToJson(GetCustomerProfileResult data) {
   return json.encode(dyn);
 }
 
+
+
+
 class GetCustomerProfileResult {
   String message;
   String statusCode;

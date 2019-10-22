@@ -65,6 +65,23 @@ class Auth {
     }
   }
 
+
+
+  static Future<List<String>> createList(String listName,String token,String userId) async {
+    var keys = new List<String>(2);
+    try {
+
+      await StillarAuth.createList(listName,token,userId);
+    }
+
+    catch(e)
+    {
+      throw Exception(e);
+    }
+    return keys;
+  }
+
+
   static Future<void> storeTokenLocal(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);

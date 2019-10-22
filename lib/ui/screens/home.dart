@@ -5,6 +5,8 @@ import 'package:chat_app/util/state_widget.dart';
 import 'package:chat_app/ui/screens/sign_in.dart';
 import 'package:chat_app/ui/screens/product_details.dart';
 import 'package:chat_app/ui/widgets/loading.dart';
+import 'package:chat_app/util/alert.dart';
+import 'package:chat_app/util/auth.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -12,14 +14,39 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   StateModel appState;
+  bool _autoValidate = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _loadingVisible = false;
+  final TextEditingController _listName = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
   }
 
+
+
+
   showAlertDialog(BuildContext context) {
+
+
+    void _createList(
+        {String listName,BuildContext context}) async {
+        try {
+
+          String token = await Auth.getTokenLocal();
+          String userId = await Auth.getCookieLocal();
+          List<String> keys = await Auth.createList(listName, token, userId);
+          await Navigator.pushNamed(context, '/productdetails');
+        } catch (e) {
+          print(e);
+
+          String exception = e.toString();
+          exception = exception.split(': ')[1];
+          Alert.showError(context, "Error", exception);
+        }
+
+    }
     // set up the buttons
     Widget cancelButton = FlatButton(
       child: Text(
@@ -42,11 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       onPressed: () {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (BuildContext context) => new ProductDetailScreen(),
-            ));
+        _createList(listName:_listName.text,context: context);
       },
     );
 
@@ -62,10 +85,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       content: Container(
         color: Colors.white,
-        child: TextFormField(
+        child: TextField(
           style: new TextStyle(fontFamily: 'Poppins'),
           keyboardType: TextInputType.text,
           autofocus: false,
+          controller: _listName,
+
           decoration: InputDecoration(
             hintText: 'Enter your list name',
             hintStyle: new TextStyle(
@@ -95,6 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
+
+
   Widget build(BuildContext context) {
     appState = StateWidget.of(context).state;
 
@@ -108,6 +136,12 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         _loadingVisible = false;
       }
+
+
+
+
+
+
 
       final signOutButton = Padding(
         padding: EdgeInsets.symmetric(vertical: 16.0),

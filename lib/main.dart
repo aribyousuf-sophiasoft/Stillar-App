@@ -1,3 +1,4 @@
+import 'package:chat_app/ui/screens/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/util/state_widget.dart';
 import 'package:chat_app/ui/theme.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpScreen(),
         '/forgot-password': (context) => ForgotPasswordScreen(),
         '/verification': (context) => VerificationScreen(),
+        '/productdetails': (context) => ProductDetailScreen(),
       },
     );
   }
