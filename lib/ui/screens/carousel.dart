@@ -97,6 +97,14 @@ class _ImageCarouselState extends State<ImageCarousel>
               color: Colors.green,
             ), // icon is 48px widget.
           ),
+          suffixIcon: Padding(
+            padding: EdgeInsets.only(right: 5.0),
+            child: Icon(
+              FontAwesomeIcons.plus,
+              size: 18,
+              color: Color(0xFF00269d),
+            ), // icon is 48px widget.
+          ),
           hintText: 'Add Tag',
           hintStyle: new TextStyle(
             color: Colors.grey,
@@ -337,29 +345,63 @@ class _ImageCarouselState extends State<ImageCarousel>
     );
 
     final addInfoButton = Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text('Test')
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text('Test')
-              ],
-            )
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              FlatButton(
+                onPressed: () {},
+                child: Image(
+                  height: 35,
+                  image: new AssetImage('assets/images/products/add.png'),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text('Add more info',
+                  style: TextStyle(
+                      color: Color(0xFF949cba),
+                      fontFamily: 'Poppins',
+                      fontSize: 12))
+            ],
+          )
+        ],
       ),
     );
+
+    final addAnotherProductButton = Container(
+        width: MediaQuery.of(context).size.width / 2,
+        child: RaisedButton(
+          onPressed: () {},
+          padding: EdgeInsets.all(12),
+          color: Colors.white,
+          child: Text('ADD ANOTHER',
+              style: TextStyle(
+                  color: Color(0xFF00269d),
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold)),
+        ));
+
+    final addProductButton = Container(
+        width: MediaQuery.of(context).size.width / 2,
+        child: RaisedButton(
+          onPressed: () {},
+          padding: EdgeInsets.all(12),
+          color: Color(0xFF00269d),
+          child: Text('ADD PRODUCT',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold)),
+        ));
 
     return Stack(children: <Widget>[
       new Container(
@@ -395,69 +437,90 @@ class _ImageCarouselState extends State<ImageCarousel>
                       child: Form(
                         key: _formKey,
                         autovalidate: _autoValidate,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Center(
+                        child: Column(children: <Widget>[
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new Padding(
+                                      padding: EdgeInsets.only(top: 20)),
+                                  addToList,
+                                  SizedBox(height: 20.0),
+                                  addTags,
+                                  SizedBox(height: 20.0),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      cokeTag,
+                                      Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                      ),
+                                      sugarFreeTag,
+                                      Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                      ),
+                                      measurementTag
+                                    ],
+                                  ),
+                                  SizedBox(height: 15.0),
+                                  Row(
+                                    children: <Widget>[
+                                      quantityTag,
+                                      Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                      ),
+                                      migrosTag,
+                                      Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                      ),
+                                      typeTag
+                                    ],
+                                  ),
+                                  SizedBox(height: 20.0),
+                                  suggestedTagsLabel,
+                                  SizedBox(height: 20.0),
+                                  Row(
+                                    children: <Widget>[
+                                      quantityTag,
+                                      Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                      ),
+                                      migrosTag,
+                                      Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                      ),
+                                      typeTag
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 30.0,
+                                  ),
+                                  addInfoButton,
+                                  SizedBox(height: 30.0),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Center(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                new Padding(padding: EdgeInsets.only(top: 20)),
-                                addToList,
-                                SizedBox(height: 20.0),
-                                addTags,
-                                SizedBox(height: 20.0),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    cokeTag,
-                                    Padding(
-                                      padding: EdgeInsets.all(3.0),
-                                    ),
-                                    sugarFreeTag,
-                                    Padding(
-                                      padding: EdgeInsets.all(3.0),
-                                    ),
-                                    measurementTag
+                                    addAnotherProductButton,
+                                    addProductButton
                                   ],
-                                ),
-                                SizedBox(height: 15.0),
-                                Row(
-                                  children: <Widget>[
-                                    quantityTag,
-                                    Padding(
-                                      padding: EdgeInsets.all(3.0),
-                                    ),
-                                    migrosTag,
-                                    Padding(
-                                      padding: EdgeInsets.all(3.0),
-                                    ),
-                                    typeTag
-                                  ],
-                                ),
-                                SizedBox(height: 20.0),
-                                suggestedTagsLabel,
-                                SizedBox(height: 20.0),
-                                Row(
-                                  children: <Widget>[
-                                    quantityTag,
-                                    Padding(
-                                      padding: EdgeInsets.all(3.0),
-                                    ),
-                                    migrosTag,
-                                    Padding(
-                                      padding: EdgeInsets.all(3.0),
-                                    ),
-                                    typeTag
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20.0,
-                                ),
+                                )
                               ],
                             ),
                           ),
-                        ),
+                        ]),
                       ),
                       inAsyncCall: _loadingVisible),
                 ],
