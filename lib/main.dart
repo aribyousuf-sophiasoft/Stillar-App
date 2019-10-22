@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/Home': (context) => HomeScreen(),
         '/MainMenu': (context) => Menu(),
-        '/': (context) => SignInScreen(),
+        '/': (context) => ImageCarousel(), //SignInScreen(),
         '/signup': (context) => SignUpScreen(),
         '/forgot-password': (context) => ForgotPasswordScreen(),
         '/verification': (context) => VerificationScreen(),
