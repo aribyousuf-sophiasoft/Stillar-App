@@ -1,8 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:chat_app/util/state_widget.dart';
 import 'package:chat_app/ui/screens/sign_in.dart';
+int _selectedDrawerIndex = 0;
+class AppDrawer extends StatefulWidget {
 
-class AppDrawer extends StatelessWidget {
+
+ static int GetDrawIndex()
+  {
+    return _selectedDrawerIndex;
+  }
+
+
+  @override
+
+
+
+   State<StatefulWidget> createState() {
+     return new AppDrawerState();
+   }
+}
+
+class AppDrawerState extends State<AppDrawer> {
+
+
+
+
+  _onSelectItem(int index) {
+    setState(() => _selectedDrawerIndex = index);
+    Navigator.of(context).pop(); // close the drawer
+  }
+  Widget _createHeader() {
+    return UserAccountsDrawerHeader(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/drawer/top.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget _createDrawerItem(
+      {Image icon, String text, GestureTapCallback onTap, Color color}) {
+    return ListTile(
+      title: Row(
+        children: <Widget>[
+          new Row(
+            children: <Widget>[
+              Padding(padding: EdgeInsets.only(left: 1.0)),
+              icon,
+              Padding(
+                padding: EdgeInsets.only(left: 13.0),
+                child: Text(
+                  text,
+                  style: new TextStyle(color: color, fontFamily: 'Poppins'),
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+      onTap: onTap,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -33,7 +93,12 @@ class AppDrawer extends StatelessWidget {
                 color: null,
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.center,
+
               ),
+              onTap: () {
+
+                _onSelectItem(1);
+              },
               text: 'Profile',
               color: Colors.black),
           _createDrawerItem(
@@ -138,38 +203,5 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _createHeader() {
-    return UserAccountsDrawerHeader(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/drawer/top.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
 
-  Widget _createDrawerItem(
-      {Image icon, String text, GestureTapCallback onTap, Color color}) {
-    return ListTile(
-      title: Row(
-        children: <Widget>[
-          new Row(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.only(left: 1.0)),
-              icon,
-              Padding(
-                padding: EdgeInsets.only(left: 13.0),
-                child: Text(
-                  text,
-                  style: new TextStyle(color: color, fontFamily: 'Poppins'),
-                ),
-              )
-            ],
-          ),
-        ],
-      ),
-      onTap: onTap,
-    );
-  }
 }

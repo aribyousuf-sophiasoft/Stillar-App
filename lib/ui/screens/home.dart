@@ -1,3 +1,4 @@
+import 'package:chat_app/ui/screens/userLists.dart';
 import 'package:chat_app/ui/screens/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/models/state.dart';
@@ -7,6 +8,8 @@ import 'package:chat_app/ui/screens/product_details.dart';
 import 'package:chat_app/ui/widgets/loading.dart';
 import 'package:chat_app/util/alert.dart';
 import 'package:chat_app/util/auth.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,7 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+
+
     super.initState();
+
   }
 
 
@@ -122,15 +128,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
+  static Future<void> TestPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
+   print(prefs.get("user"));
+
+
+  }
   Widget build(BuildContext context) {
-    appState = StateWidget.of(context).state;
 
+    appState = StateWidget.of(context).state;
+    //print(appState.user.EmailAddress);
     if (!appState.isLoading && (appState.user == null)) {
       return SignInScreen();
     } else if (!appState.user.otpAuthenticated && (appState.user != null)) {
       return VerificationScreen();
-    } else {
+    }
+    else if (appState.userList!=null && (appState.user!=null))
+      {
+        return userListScreen();
+      }
+
+
+    else {
+
+      print(appState.user.firstName);
       if (appState.isLoading) {
         _loadingVisible = true;
       } else {
@@ -140,6 +162,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
+      Future<bool> _onBackPressed() {
+        return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Are you sure?'),
+                content: Text('You are going to exit the application!!'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('NO'),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text('YES'),
+                    onPressed: () {
+                      TestPref();
+                      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                    },
+                  ),
+                ],
+              );
+            });
+      }
 
 
 
@@ -267,6 +314,9 @@ class _HomeScreenState extends State<HomeScreen> {
       return Scaffold(
         backgroundColor: Color(0xFFf8f9fb),
         body: LoadingScreen(
+          child:
+          WillPopScope(
+            onWillPop: _onBackPressed,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 48.0),
               child: Center(
@@ -287,7 +337,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+          ),
             inAsyncCall: _loadingVisible),
+
       );
     }
   }

@@ -130,8 +130,6 @@ class CustomerSignUpResult {
 
 GetCustomerProfileResult getCustomerProfileResult(String str) {
   final jsonData = json.decode(str);
-  print("getCustomerProfileResult() called");
-  print("jsonData: $jsonData");
   return GetCustomerProfileResult.fromJson(jsonData);
 }
 
@@ -141,6 +139,35 @@ String getCustomerProfileResultToJson(GetCustomerProfileResult data) {
 }
 
 
+class GetAllListsResult {
+  String message;
+  String statusCode;
+  List<listResult> result;
+
+  GetAllListsResult({this.message, this.statusCode, this.result});
+
+  factory GetAllListsResult.fromJson(Map<String, dynamic> json) {
+
+
+
+    var list = _getUserList(json['GetAllListsResult']["Result"]);
+
+
+
+    return GetAllListsResult(
+        message: json['GetAllListsResult']["Message"].toString(),
+        statusCode: json['GetAllListsResult']["StatusCode"].toString(),
+        result: list
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    "Message": message,
+    "StatusCode": statusCode,
+    "Result": result,
+  };
+
+}
 
 
 class GetCustomerProfileResult {
@@ -152,11 +179,6 @@ class GetCustomerProfileResult {
 
   factory GetCustomerProfileResult.fromJson(Map<String, dynamic> json) {
 
-    print("GetCustomerProfileResult.fromJson() called");
-
-    print(json['GetCustomerProfileResult']["Message"].toString());
-    print(json['GetCustomerProfileResult']["StatusCode"].toString());
-    print(json['GetCustomerProfileResult']["Result"]);
 
     return GetCustomerProfileResult(
         message: json['GetCustomerProfileResult']["Message"].toString(),
@@ -183,22 +205,70 @@ String resultToJson(Result data) {
   return json.encode(dyn);
 }
 
+
+
+List<listResult> ListResult(List<dynamic> Json) {
+  return _getUserList(Json);
+}
+
+
+String ListResultToJson(List<listResult> data) {
+  return  jsonEncode(data.map((e) => e.toJson()).toList());
+}
+
+
+
+
+
+class listResult {
+
+  int ListID;
+  String ListName;
+  listResult({
+    this.ListID,
+    this.ListName,
+  });
+
+  factory listResult.fromJson(Map<String, dynamic> json) {
+
+    return listResult(
+        ListID: json["ListID"],
+        ListName: json["ListName"]
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    "ListID": ListID,
+    "ListName": ListName,
+  };
+
+}
+
+
+List<listResult> _getUserList(List<dynamic> Json)  {
+
+  List<listResult> _lists = Json.map((i)=>listResult.fromJson(i)).toList();
+  return _lists;
+}
+
+
+
 class Result {
 
   String firstName;
   String lastName;
   String imageUrl;
-  String mobileNumber;
+  String MobileNumber;
   bool otpAuthenticated;
-  String Email;
+  String EmailAddress;
 
   Result({
     this.firstName,
     this.lastName,
     this.imageUrl,
-    this.mobileNumber,
+    this.MobileNumber,
     this.otpAuthenticated,
-    this.Email
+    this.EmailAddress
   });
 
   factory Result.fromJson(Map<String, dynamic> json) {
@@ -208,9 +278,9 @@ class Result {
         firstName: json["FirstName"],
         lastName: json["LastName"],
         imageUrl: json["ImageUrl"] ?? '',
-        mobileNumber: json["MobileNumber"],
-        Email: json["Email"],
-        otpAuthenticated:json["otpAuthenticated"]??false
+        MobileNumber: json["MobileNumber"],
+        EmailAddress: json["EmailAddress"],
+        otpAuthenticated:json["OtpAuthenticated"]??false
     );
   }
 
@@ -218,8 +288,8 @@ class Result {
     "FirstName": firstName,
     "LastName": lastName,
     "ImageUrl": imageUrl ?? '',
-    "MobileNumber": mobileNumber,
-    "Email": Email,
-    "otpAuthenticated":otpAuthenticated??false
+    "MobileNumber": MobileNumber,
+    "EmailAddress": EmailAddress,
+    "OtpAuthenticated":otpAuthenticated??false
   };
 }
