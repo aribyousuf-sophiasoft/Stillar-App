@@ -50,36 +50,56 @@ class _StateWidgetState extends State<StateWidget> {
     String token = await Auth.getTokenLocal();
     String userId = await Auth.getCookieLocal();
     String otpAuthenticated = await Auth.getOtpAuthenticatedLocal();
+    List<listResult> userList= await Auth.getUserListLocal();
+
     setState(() {
       state.isLoading = false;
       state.token = token;
       state.user = user;
       state.settings = settings;
       state.userId = userId;
+      state.userList=userList;
     });
   }
 
   Future<void> logOutUser() async {
-    print("logOutUser() called");
     await Auth.signOut();
     setState(() {
       state.user = null;
       state.settings = null;
       state.token = null;
       state.userId = null;
+      state.userList=null;
     });
   }
 
   Future<void> logInUser(email, password) async {
-    print("logInUser() called");
+    //print("logInUser() called");
     List<String> keys = await Auth.signIn(email, password);
     GetCustomerProfileResult user = await Auth.getUser(keys[0], keys[1]);
+    try {
+      GetAllListsResult userList = await Auth.getCustomerLists(
+          keys[0], keys[1]);
+      await Auth.storeUserListLocal(userList.result);
+    }
+    catch(e)
+    {
+
+    }
+
+
     if (keys.isNotEmpty && user != null) {
       await Auth.storeTokenLocal(keys[0]);
       await Auth.storeCookieLocal(keys[1]);
       await Auth.storeUserLocal(user.result);
+
+
       await initUser();
+
     }
+
+
+
   }
 
   @override

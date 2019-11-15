@@ -364,7 +364,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               _sixthDigit.text +
               _seventhDigit.text +
               _eightDigit.text;
-          String Email = appState.user.Email;
+          String Email = appState.user.EmailAddress;
           _VerifyOTP(email: Email, otp: OTP, context: context);
         },
         padding: EdgeInsets.all(12),
@@ -465,5 +465,5 @@ class _VerificationScreenState extends State<VerificationScreen> {
     });
   }
 
-  void _verifyOTP() {}
+  
 }

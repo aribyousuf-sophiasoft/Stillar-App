@@ -6,7 +6,9 @@ class StateModel {
   String token;
   String userId;
   Result user;
+ List<listResult> userList;
   Settings settings;
+
 
   StateModel({
     this.isLoading = false,
@@ -14,5 +16,6 @@ class StateModel {
     this.user,
     this.settings,
     this.userId,
+    this.userList
   });
 }

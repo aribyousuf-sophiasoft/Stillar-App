@@ -1,3 +1,4 @@
+import 'package:chat_app/ui/screens/userLists.dart';
 import 'package:chat_app/ui/screens/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/models/state.dart';
@@ -5,6 +6,10 @@ import 'package:chat_app/util/state_widget.dart';
 import 'package:chat_app/ui/screens/sign_in.dart';
 import 'package:chat_app/ui/screens/product_details.dart';
 import 'package:chat_app/ui/widgets/loading.dart';
+import 'package:chat_app/util/alert.dart';
+import 'package:chat_app/util/auth.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
@@ -12,14 +17,42 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   StateModel appState;
+  bool _autoValidate = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _loadingVisible = false;
+  final TextEditingController _listName = new TextEditingController();
 
   @override
   void initState() {
+
+
     super.initState();
+
   }
 
+
+
+
   showAlertDialog(BuildContext context) {
+
+
+    void _createList(
+        {String listName,BuildContext context}) async {
+        try {
+
+          String token = await Auth.getTokenLocal();
+          String userId = await Auth.getCookieLocal();
+          List<String> keys = await Auth.createList(listName, token, userId);
+          await Navigator.pushNamed(context, '/productdetails');
+        } catch (e) {
+          print(e);
+
+          String exception = e.toString();
+          exception = exception.split(': ')[1];
+          Alert.showError(context, "Error", exception);
+        }
+
+    }
     // set up the buttons
     Widget cancelButton = FlatButton(
       child: Text(
@@ -42,11 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       onPressed: () {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (BuildContext context) => new ProductDetailScreen(),
-            ));
+        _createList(listName:_listName.text,context: context);
       },
     );
 
@@ -62,10 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       content: Container(
         color: Colors.white,
-        child: TextFormField(
+        child: TextField(
           style: new TextStyle(fontFamily: 'Poppins'),
           keyboardType: TextInputType.text,
           autofocus: false,
+          controller: _listName,
+
           decoration: InputDecoration(
             hintText: 'Enter your list name',
             hintStyle: new TextStyle(
@@ -95,19 +126,69 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget build(BuildContext context) {
-    appState = StateWidget.of(context).state;
 
+
+  static Future<void> TestPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+   print(prefs.get("user"));
+
+
+  }
+  Widget build(BuildContext context) {
+
+    appState = StateWidget.of(context).state;
+    //print(appState.user.EmailAddress);
     if (!appState.isLoading && (appState.user == null)) {
       return SignInScreen();
     } else if (!appState.user.otpAuthenticated && (appState.user != null)) {
       return VerificationScreen();
-    } else {
+    }
+    else if (appState.userList!=null && (appState.user!=null))
+      {
+        return userListScreen();
+      }
+
+
+    else {
+
+      print(appState.user.firstName);
       if (appState.isLoading) {
         _loadingVisible = true;
       } else {
         _loadingVisible = false;
       }
+
+
+
+
+      Future<bool> _onBackPressed() {
+        return showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Are you sure?'),
+                content: Text('You are going to exit the application!!'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('NO'),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text('YES'),
+                    onPressed: () {
+                      TestPref();
+                      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                    },
+                  ),
+                ],
+              );
+            });
+      }
+
+
 
       final signOutButton = Padding(
         padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -233,6 +314,9 @@ class _HomeScreenState extends State<HomeScreen> {
       return Scaffold(
         backgroundColor: Color(0xFFf8f9fb),
         body: LoadingScreen(
+          child:
+          WillPopScope(
+            onWillPop: _onBackPressed,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 48.0),
               child: Center(
@@ -253,7 +337,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+          ),
             inAsyncCall: _loadingVisible),
+
       );
     }
   }

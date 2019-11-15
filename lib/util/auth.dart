@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 //import 'dart:convert';
 import 'package:chat_app/models/user.dart';
@@ -56,6 +57,16 @@ class Auth {
     return keys;
   }
 
+
+  static Future<GetAllListsResult> getCustomerLists(String token, String userId) async {
+    if (token != null && userId != null) {
+      return await StillarAuth.getCustomerLists(token, userId);
+    } else {
+      print('token/user id can not be null');
+      return null;
+    }
+  }
+
   static Future<GetCustomerProfileResult> getUser(String token, String userId) async {
     if (token != null && userId != null) {
       return await StillarAuth.getUserProfile(token, userId);
@@ -64,6 +75,23 @@ class Auth {
       return null;
     }
   }
+
+
+
+  static Future<List<String>> createList(String listName,String token,String userId) async {
+    var keys = new List<String>(2);
+    try {
+
+      await StillarAuth.createList(listName,token,userId);
+    }
+
+    catch(e)
+    {
+      throw Exception(e);
+    }
+    return keys;
+  }
+
 
   static Future<void> storeTokenLocal(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -85,6 +113,18 @@ class Auth {
     await prefs.setString('user', storeUser);
   }
 
+  static Future<void> storeUserListLocal(List<listResult> listResult) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _listResult = ListResultToJson(listResult);
+    await prefs.setString('userList', _listResult);
+  }
+
+
+
+
+
+
+
   static Future<String> storeSettingsLocal(Settings settings) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String storeSettings = settingsToJson(settings);
@@ -97,6 +137,17 @@ class Auth {
     if (prefs.getString('user') != null) {
       Result user = result(prefs.getString('user'));
       return user;
+    } else {
+      return null;
+    }
+  }
+
+
+  static Future<List<listResult>> getUserListLocal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('userList') != null) {
+     List<listResult> userList = ListResult( jsonDecode(prefs.getString('userList')));
+      return userList;
     } else {
       return null;
     }
@@ -146,7 +197,10 @@ class Auth {
 
   static Future<void> signOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     await prefs.clear();
+
+
   }
 
   static String getExceptionText(Exception e) {

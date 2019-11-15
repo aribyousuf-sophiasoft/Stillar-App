@@ -21,7 +21,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _email = new TextEditingController();
   final TextEditingController _password = new TextEditingController();
-
+  SharedPreferences shard;
   bool _autoValidate = false;
   bool _loadingVisible = false;
   StateModel appState;
@@ -29,16 +29,16 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
+   // StateWidget.of(context).initUser();
   }
 
-  static Future<void> signOut() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
-  }
+
+
 
   Widget build(BuildContext context) {
-    //signOut();
 
+
+    print(appState);
     if (appState != null) {
       if (appState.user.otpAuthenticated) {
         return HomeScreen();
@@ -60,12 +60,14 @@ class _SignInScreenState extends State<SignInScreen> {
             await _changeLoadingVisible();
             //need await so it has chance to go through error if found.
             await StateWidget.of(context).logInUser(email, password);
+
+
             await Navigator.pushNamed(context, '/MainMenu');
           } catch (e) {
             print(e);
             _changeLoadingVisible();
             String exception = e.toString();
-            exception = exception.split(': ')[1];
+            exception = exception;
             Alert.showError(context, "Sign In Error", exception);
           }
         } else {
